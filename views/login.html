@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login | TrackTube</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  </head>
+  <body style="background-color: #00a9ea; font-family: 'Roboto', sans-serif;">
+    <div class="container vh-100">
+      <div class="row justify-content-center align-items-center h-100">
+        <div class="col-md-10">
+          <div class="card">
+            <div class="row g-0">
+              <div class="col-md-6 d-none d-md-block">
+                <img src="./../public/img/graph.svg" alt="graph" class="img-fluid rounded-start h-100">
+              </div>
+              <div class="col-md-5 ps-3 align-self-center">
+                <div class="card-body">
+                  <form action="/login" method="post" class="form-floating">
+                    <h1 class="card-title">TrackTube</h1>
+                    <h5 class="fw-normal mb-4">Login to show the progress.</h5>
+                    <div class="alert alert-danger d-none" role="alert">
+                      <ul>
+                        <li>First wrong</li>
+                        <li>Second wrong</li>
+                      </ul>
+                    </div>
+                    <div class="mb-3 form-floating">
+                      <input type="text" class="form-control" id="username" name="username" placeholder="username" required>
+                      <label for="username" class="form-label">Username</label>
+                    </div>
+                    <div class="mb-2 form-check">
+                      <input type="checkbox" class="form-check-input" id="checkbox" name="checkbox">
+                      <label for="checkbox" class="form-check-label">Login as admin</label>
+                    </div>
+                    <div class="mb-3 form-floating passwordField" style="display: none">
+                      <input type="password" class="form-control" id="password" name="password" placeholder="password">
+                      <label for="passowrd" class="form-label">Admin Password</label>
+                    </div>
+                    <button type="submit" class="btn text-white d-inline-flex mt-3" style="background-color: #00a9ea;">Login</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="./../public/js/login.js"></script>
+  </body>
+</html>
