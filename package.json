@@ -1,0 +1,26 @@
+{
+  "name": "tracktube",
+  "version": "1.0.0",
+  "description": "TrackTube is a web app used to monitoring YouTube video's views and likes.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tudemaha/tracktube.git"
+  },
+  "author": "Tude Maha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tudemaha/tracktube/issues"
+  },
+  "homepage": "https://github.com/tudemaha/tracktube#readme",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "express-session": "^1.17.3",
+    "express-validator": "^6.14.2",
+    "mysql": "^2.18.1"
+  }
+}
