@@ -23,12 +23,16 @@
                   <form action="/login" method="post" class="form-floating">
                     <h1 class="card-title">TrackTube</h1>
                     <h5 class="fw-normal mb-4">Login to show the progress.</h5>
-                    <div class="alert alert-danger d-none" role="alert">
-                      <ul>
-                        <li>First wrong</li>
-                        <li>Second wrong</li>
-                      </ul>
-                    </div>
+                    <% if(typeof errors !== 'undefined') { %> 
+                      <div class="alert alert-danger" role="alert">
+                          <% if(errors.common) { %>
+                            Username or password is invalid.
+                          <% } %>
+                          <% if(errors.admin) { %>
+                            Admin password is invalid.
+                          <% } %>
+                      </div>
+                     <% } %> 
                     <div class="mb-3 form-floating">
                       <input type="text" class="form-control" id="username" name="username" placeholder="username" required>
                       <label for="username" class="form-label">Username</label>
