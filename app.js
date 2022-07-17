@@ -18,7 +18,7 @@ app.use(express.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 
 // session middleware
-const expired = 1000 * 60;
+const expired = 1000 * 60 * 5;
 app.use(session({
     secret: 'thismysecretbroqwerty12345',
     saveUninitialized: true,
@@ -35,7 +35,8 @@ app.get('/', async (req, res) => {
     console.log(req.session);
     if(req.session.username && req.session.role) {
         res.render('index', {
-            videos
+            videos,
+            role: req.session.role
         });
     } else {
         res.redirect('/login');
@@ -87,6 +88,14 @@ app.post('/login', async (req, res) => {
         res.redirect('/');
     }
 });
+
+// logout
+app.get('/logout', (req, res) => {
+    req.session.username = undefined;
+    req.session.role = undefined;
+    req.session.destroy();
+    res.redirect('/login');
+})
 
 // listen
 app.listen(port, () => {

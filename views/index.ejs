@@ -21,11 +21,13 @@
                     <li class="nav-item">
                         <a href="/" class="nav-link active" aria-current="page">Home</a>
                     </li>
-                    <li>
-                        <a href="/new" class="nav-link">Add New Data</a>
-                    </li>
+                    <% if(role === 'admin') { %> 
+                        <li>
+                            <a href="/new" class="nav-link">Add New Data</a>
+                        </li>
+                    <% } %>
                     <li class="nav-item">
-                        <a href="/logout" class="nav-link">Log Out</a>
+                        <a href="/logout" class="nav-link" onclick="confirm('Yakin keluar?');">Log Out</a>
                     </li>
                 </ul>
             </div>
@@ -55,21 +57,30 @@
                                 <td><%= video.title %> </td>
                                 <td><a href="<%= video.url %> " style="color: #00a9ea">Link</a></td>
                                 <th>
-                                    <div class="btn-group"  >
-                                        <a href="/details/<%= video.number %>" class="btn btn-info btn-sm badge" style="background-color: #00a9ea;">Details</a>
-                                        <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split badge" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #00a9ea;">
-                                            <span class="visually-hidden">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="/edit/<%= video.number %>" class="dropdown-item">Edit</a></li>
-                                            <li><a href="/delete/<%= video.number %>" class="dropdown-item">Delete</a></li>
-                                        </ul>
-                                    </div>
+                                    <% if(role === 'admin') { %> 
+                                        <div class="btn-group"  >
+                                            <a href="/details/<%= video.number %>" class="btn btn-info btn-sm badge" style="background-color: #00a9ea;">Details</a>
+                                            <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split badge" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #00a9ea;">
+                                                <span class="visually-hidden">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="/edit/<%= video.number %>" class="dropdown-item">Edit</a></li>
+                                                <li><a href="/delete/<%= video.number %>" class="dropdown-item">Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    <% } else { %> 
+                                        <a class="btn btn-info btn-sm badge" style="background-color: #00a9ea">Details</a>
+                                    <% } %> 
                                 </th>
                             </tr>
-                            <% }); %> 
+                            <% }); %>
                         </tbody>
                     </table>
+                    <% if(videos.length === 0) { %> 
+                        <div class="alert alert-info text-center" role="alert" style="background-color: rgba(0, 169, 234, 0.5)">
+                            No video in record.
+                        </div>
+                    <% } %> 
                 </div>
             </div>
         </div>

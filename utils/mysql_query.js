@@ -2,7 +2,7 @@ const connection = require('./mysql_config');
 
 const readTable = (table) => {
     const data = new Promise((resolve, reject) => {
-        connection.query(`SELECT * FROM users`, (error, result) => {
+        connection.query(`SELECT * FROM ${table}`, (error, result) => {
             resolve(result);
             reject(error);
         });
