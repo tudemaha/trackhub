@@ -18,21 +18,37 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a href="/" class="nav-link active" aria-current="page">Home</a>
-                    </li>
+                    <a href="" class="nav-link disabled" style="color: rgba(255, 255, 255, 0.8)">@<%= username %> </a>
+                    <div class="vr d-none d-md-flex text-white" style="width: 2px"></div>
+                    <a href="/" class="nav-link active" aria-current="page">Home</a>
                     <% if(role === 'admin') { %> 
-                        <li>
-                            <a href="/new" class="nav-link">Add New Data</a>
-                        </li>
+                        <a href="/new" class="nav-link">Add New Data</a>
                     <% } %>
-                    <li class="nav-item">
-                        <a href="/logout" class="nav-link" onclick="confirm('Yakin keluar?');">Log Out</a>
-                    </li>
+                    <a href="" class="nav-link" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+                    
                 </ul>
             </div>
         </div>
     </nav>
+
+    <div class="modal fade" id="logoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticLogoutModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Logout</h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Logout from TrackTube?
+                </div>
+                <div class="modal-footer">
+                    <a href="/logout" class="btn btn-info text-light" style="background-color: #00a9ea">Yes</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <section class="mt-5 pt-4" id="content">
         <div class="container">
             <h2 class="text-center"><b>Tracked Videos List</b></h2>
@@ -55,7 +71,7 @@
                             <tr>
                                 <th scope="row"><%= video.number %> </th>
                                 <td><%= video.title %> </td>
-                                <td><a href="<%= video.url %> " style="color: #00a9ea">Link</a></td>
+                                <td><a href="<%= video.url %> " style="color: #00a9ea" target="_blank">Link</a></td>
                                 <th>
                                     <% if(role === 'admin') { %> 
                                         <div class="btn-group"  >

@@ -36,6 +36,7 @@ app.get('/', async (req, res) => {
     if(req.session.username && req.session.role) {
         res.render('index', {
             videos,
+            username: req.session.username,
             role: req.session.role
         });
     } else {
