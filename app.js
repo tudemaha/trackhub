@@ -1,10 +1,11 @@
 // import package
 const express = require('express');
 const session = require('express-session');
-const mysql_query = require('./utils/mysql_query');
-const getHash = require('./utils/hash');
+const fetch = require('node-fetch');
 const {body, validationResult, check} = require('express-validator');
 const flash = require('connect-flash');
+const mysql_query = require('./utils/mysql_query');
+const getHash = require('./utils/hash');
 
 // express setup
 const app = express();
@@ -13,12 +14,13 @@ app.use(express.static('public', {root: __dirname}));
 
 // parse incoming data
 app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
 // ejs setup
 app.set('view engine', 'ejs');
 
 // session middleware
-const expired = 1000 * 60 * 5;
+const expired = 1000 * 60 * 60;
 app.use(session({
     secret: 'thismysecretbroqwerty12345',
     saveUninitialized: true,
@@ -36,8 +38,7 @@ app.get('/', async (req, res) => {
     if(req.session.username && req.session.role) {
         res.render('index', {
             videos,
-            username: req.session.username,
-            role: req.session.role
+            account: {username: req.session.username, role: req.session.role}
         });
     } else {
         res.redirect('/login');
@@ -88,6 +89,31 @@ app.post('/login', async (req, res) => {
     } else {
         res.redirect('/');
     }
+});
+
+app.get('/new', (req, res, next) => {
+    if(req.session.username && req.session.role === 'admin') {
+        res.render('new', {
+            account: {username: req.session.username, role: req.session.role}
+        });
+    } if(!req.session.username && !req.session.role) {
+        res.redirect('/login');
+    } else {
+        next();
+    }
+});
+
+app.post('/update', (req, res) => {
+    fetch(`https://www.googleapis.com/youtube/v3/videos?id=${req.body.id}&key=AIzaSyDZuwEGbjFgQN9326KfqHpLCej7RusZNII&part=snippet,contentDetails,statistics&fields=items(id,snippet(publishedAt,title,thumbnails/standard),contentDetails(duration,definition),statistics)`)
+        .then((response) => response.json())
+        .then((response) => {
+            const data = response.items;
+            res.send(data);
+        })
+        .catch((error) => {
+            res.status(400).send('Bad request.');
+            console.log(error);
+        });
 });
 
 // logout

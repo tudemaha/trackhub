@@ -18,15 +18,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a href="/" class="nav-link" aria-current="page">Home</a>
-                    </li>
-                    <li>
+                    <a href="" class="nav-link disabled" style="color: rgba(255, 255, 255, 0.8)">@<%= account.username %> </a>
+                    <div class="vr d-none d-md-flex text-white" style="width: 2px"></div>
+                    <a href="/" class="nav-link" aria-current="page">Home</a>
+                    <% if(account.role === 'admin') { %> 
                         <a href="/new" class="nav-link active">Add New Data</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/logout" class="nav-link">Log Out</a>
-                    </li>
+                    <% } %>
+                    <a href="" class="nav-link" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+                    
                 </ul>
             </div>
         </div>
@@ -36,39 +35,51 @@
             <h2 class="text-center"><b>Add New Video</b></h2>
         </div>
 
-        <div class="container mt-3">
+        <div class="container mt-3 mb-5">
             <div class="row justify-content-center">
                 <div class="col-md-7">
-                    <form action="/new" method="post">
+                    <form method="post" name="update">
                         <div class="mb-3">
                             <label for="url" class="form-label">YouTube URL</label>
                             <input type="url" class="form-control" id="url" name="url" required>
                         </div>
                         <button type="submit" class="btn text-white" style="background-color: #00a9ea;">Load YouTube Details</button>
-
-                        <div class="row mt-4 align-items-start" style="display: flex">
+                    </form>
+                    <div class="alert text-center alert-danger mt-3" id="invalidAlert" style="display: none;">Invaild request.</div>
+                    <form action="/new" method="post" name="details"  style="display: none">
+                        <div class="row mt-4 align-items-start">
                             <div class="col-md-5 mb-2 mb-md-0">
                                 <label for="thumbnail" class="form-label">Thumbnail</label>
-                                <img src="https://img.youtube.com/vi/GtTedu98Ric/0.jpg" class="img-fluid img-thumbnail" alt="Thumbnail" id="thumbnail">
+                                <img src="" class="img-fluid img-thumbnail" alt="Thumbnail" id="thumbnail">
                             </div>
                             <div class="col-md-7">
                                 <fieldset disabled>
+                                    <input type="hidden" name="id" value="" id="id">
+                                    <input type="hidden" name="definition" value="" id="definition">
                                     <div class="mb-2">
                                         <label for="number" class="form-label">Number</label>
-                                        <input type="text" class="form-control" id="number" name="number" value="D001">
+                                        <input type="text" class="form-control" id="number" name="number" value="">
                                     </div>
                                     <div class="mb-2">
                                         <label for="title" class="form-label">Title</label>
-                                        <input type="text" class="form-control" id="title" name="title" value="Cara Mendapatkan Dia">
+                                        <input type="text" class="form-control" id="title" name="title" value="">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="duration" class="form-label">Duration</label>
+                                        <input type="text" class="form-control" id="duration" name="duration" value="">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="published" class="form-label">Published</label>
+                                        <input type="text" class="form-control" id="published" name="published" value="">
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-md-6 mb-2">
                                             <label for="views" class="form-label">Views</label>
-                                            <input type="text" class="form-control" id="views" name="views" value="20">
+                                            <input type="text" class="form-control" id="views" name="views" value="">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="likes" class="form-label">Likes</label>
-                                            <input type="text" class="form-control" id="likes" name="likes" value="7">
+                                            <input type="text" class="form-control" id="likes" name="likes" value="">
                                         </div>
                                     </div>
                                 </fieldset>
@@ -81,5 +92,6 @@
         </div>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="js/update.js"></script>
   </body>
 </html>

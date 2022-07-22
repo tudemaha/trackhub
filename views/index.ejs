@@ -18,10 +18,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <a href="" class="nav-link disabled" style="color: rgba(255, 255, 255, 0.8)">@<%= username %> </a>
-                    <div class="vr d-none d-md-flex text-white" style="width: 2px"></div>
+                    <a href="" class="nav-link disabled" style="color: rgba(255, 255, 255, 0.8)">@<%= account.username %> </a>
+                    <div class="vr d-none d-lg-flex text-white" style="width: 2px"></div>
                     <a href="/" class="nav-link active" aria-current="page">Home</a>
-                    <% if(role === 'admin') { %> 
+                    <% if(account.role === 'admin') { %> 
                         <a href="/new" class="nav-link">Add New Data</a>
                     <% } %>
                     <a href="" class="nav-link" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
@@ -73,7 +73,7 @@
                                 <td><%= video.title %> </td>
                                 <td><a href="<%= video.url %> " style="color: #00a9ea" target="_blank">Link</a></td>
                                 <th>
-                                    <% if(role === 'admin') { %> 
+                                    <% if(account.role === 'admin') { %> 
                                         <div class="btn-group"  >
                                             <a href="/details/<%= video.number %>" class="btn btn-info btn-sm badge" style="background-color: #00a9ea;">Details</a>
                                             <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split badge" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #00a9ea;">
