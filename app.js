@@ -33,7 +33,8 @@ app.use(flash());
 
 // home
 app.get('/', async (req, res) => {
-    const videos = await mysql_query.readTable('videos');
+    const videos = await mysql_query.readTable('podcasts');
+    // console.log(videos);
     // console.log(req.session);
     if(req.session.username && req.session.role) {
         res.render('index', {
@@ -62,7 +63,7 @@ app.post('/login', async (req, res) => {
 
     // login authorization
     userData = userData[0];
-    console.log(userData);
+    // console.log(userData);
     if(typeof userData === 'undefined') {
         errors.common = 1;
     } else {
@@ -129,5 +130,5 @@ app.get('/logout', (req, res) => {
 
 // listen
 app.listen(port, () => {
-    console.log(`TrackTube is listening on port https://localhost:${port}`)
+    console.log(`TrackHub is listening on port https://localhost:${port}`)
 });
