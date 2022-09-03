@@ -34,7 +34,7 @@ app.use(flash());
 // home
 app.get('/', async (req, res) => {
     const videos = await mysql_query.readTable('videos');
-    console.log(req.session);
+    // console.log(req.session);
     if(req.session.username && req.session.role) {
         res.render('index', {
             videos,
@@ -57,29 +57,32 @@ app.get('/login', (req, res) => {
 // login
 app.post('/login', async (req, res) => {
     // prepare for login authorization
-    const users = await mysql_query.readTable('users');
+    let userData = await mysql_query.login(req.body.username);
     const errors = {common: 0, admin: 0};
 
     // login authorization
-    users.forEach(user => {
-        if(user.username === req.body.username) {
-            if(user.password === getHash(req.body.password)) {
-                req.session.username = req.body.username;
-                req.session.role = 'user';
-                errors.common = 0;
-                if(req.body.checkbox === 'on') {
-                    if(user.admin_pass === getHash(req.body.admin_pass)) {
-                        req.session.role = 'admin';
-                        errors.admin = 0;
-                    } else {
-                        errors.admin = 1;
-                    }
+    userData = userData[0];
+    console.log(userData);
+    if(typeof userData === 'undefined') {
+        errors.common = 1;
+    } else {
+        if(userData.password !== getHash(req.body.password)) {
+            errors.common = 1;
+        } else {
+            req.session.username = req.body.username;
+            req.session.role = 'user';
+            errors.common = 0;
+
+            if(req.body.checkbox === 'on') {
+                if(userData.admin_pass !== getHash(req.body.admin_pass)) {
+                    errors.admin = 1;
+                } else {
+                    req.session.role = 'admin';
+                    errors.admin = 0;
                 }
             }
-        } else {
-            errors.common = 1;
         }
-    });
+    }
 
     // if login error
     if(errors.common || errors.admin) {
