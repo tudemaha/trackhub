@@ -6,6 +6,7 @@ const {body, validationResult, check} = require('express-validator');
 const flash = require('connect-flash');
 const mysql_query = require('./utils/mysql_query');
 const getHash = require('./utils/hash');
+const parse = require('./utils/parse');
 
 // express setup
 const app = express();
@@ -118,6 +119,35 @@ app.post('/update', (req, res) => {
             res.status(400).send('Bad request.');
             console.log(error);
         });
+});
+
+app.post('/new', async (req, res) => {
+    const podcastData = req.body;
+
+    const today = new Date();
+    podcastData.duration = parse.duration(podcastData.duration);
+    
+    const podcastDetail = {
+        podcast_id: podcastData.podcast_id,
+        video_id: podcastData.video_id,
+        definition: podcastData.definition,
+        title: podcastData.title,
+        duration: podcastData.duration,
+        published: podcastData.published
+    };
+    
+    const trackingData = {
+        podcast_id: podcastData.podcast_id,
+        timestamp: today,
+        likes: podcastData.likes,
+        views: podcastData.views
+    }
+
+    const status1 = await mysql_query.insertData('podcasts', podcastDetail);
+    const status2 = await mysql_query.insertData('tracks', trackingData);
+    if(status1 === true && status2 === true) {
+        res.redirect('/');
+    }
 });
 
 // logout

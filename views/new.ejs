@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/disable-input.css">
   </head>
   <body style="font-family: 'Roboto', sans-serif;">
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #00a9ea;">
@@ -73,36 +74,34 @@
                                 <img src="" class="img-fluid img-thumbnail" alt="Thumbnail" id="thumbnail">
                             </div>
                             <div class="col-md-7">
-                                <fieldset disabled>
-                                    <input type="hidden" name="video_id" value="" id="video_id">
-                                    <input type="hidden" name="definition" value="" id="definition">
-                                    <div class="mb-2">
-                                        <label for="number" class="form-label">Podcast ID</label>
-                                        <input type="text" class="form-control" id="podcast_id" name="podcast_id" value="">
+                                <input type="hidden" name="video_id" value="" id="video_id">
+                                <input type="hidden" name="definition" value="" id="definition">
+                                <div class="mb-2">
+                                    <label for="podcast_id" class="form-label">Podcast ID</label>
+                                    <input type="text" class="form-control disable" id="podcast_id" name="podcast_id" value="">
+                                </div>
+                                <div class="mb-2">
+                                    <label for="title" class="form-label">Title</label>
+                                    <input type="text" class="form-control disable" id="title" name="title" value="">
+                                </div>
+                                <div class="mb-2">
+                                    <label for="duration" class="form-label">Duration</label>
+                                    <input type="text" class="form-control disable" id="duration" name="duration" value="">
+                                </div>
+                                <div class="mb-2">
+                                    <label for="published" class="form-label">Published</label>
+                                    <input type="text" class="form-control disable" id="published" name="published" value="">
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6 mb-2">
+                                        <label for="views" class="form-label">Views</label>
+                                        <input type="text" class="form-control disable" id="views" name="views" value="">
                                     </div>
-                                    <div class="mb-2">
-                                        <label for="title" class="form-label">Title</label>
-                                        <input type="text" class="form-control" id="title" name="title" value="">
+                                    <div class="col-md-6">
+                                        <label for="likes" class="form-label">Likes</label>
+                                        <input type="text" class="form-control disable" id="likes" name="likes" value="">
                                     </div>
-                                    <div class="mb-2">
-                                        <label for="duration" class="form-label">Duration</label>
-                                        <input type="text" class="form-control" id="duration" name="duration" value="">
-                                    </div>
-                                    <div class="mb-2">
-                                        <label for="published" class="form-label">Published</label>
-                                        <input type="text" class="form-control" id="published" name="published" value="">
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-6 mb-2">
-                                            <label for="views" class="form-label">Views</label>
-                                            <input type="text" class="form-control" id="views" name="views" value="">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="likes" class="form-label">Likes</label>
-                                            <input type="text" class="form-control" id="likes" name="likes" value="">
-                                        </div>
-                                    </div>
-                                </fieldset>
+                                </div>
                             </div>
                             <button type="submit" class="btn text-white" style="background-color: #00a9ea;">Add Video</button>
                         </div>

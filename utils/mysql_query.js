@@ -28,4 +28,18 @@ const login = (username) => {
         .catch(err => err);
 }
 
-module.exports = {readTable, login};
+
+const insertData = (table, data) => {
+    const status = new Promise((resolve, reject) => {
+        connection.query(`INSERT INTO ${table} SET ?`, data, (error, result) => {
+            resolve(result);
+            reject(error);
+        });
+    });
+
+    return status
+        .then(result => true)
+        .catch(err => err);
+}
+
+module.exports = {readTable, login, insertData};
