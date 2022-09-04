@@ -40,7 +40,8 @@ app.get('/', async (req, res) => {
     if(req.session.username && req.session.role) {
         res.render('index', {
             videos,
-            account: {username: req.session.username, role: req.session.role}
+            account: {username: req.session.username, role: req.session.role},
+            message: req.flash('info')
         });
     } else {
         res.redirect('/login');
@@ -126,7 +127,7 @@ app.post('/new', async (req, res) => {
 
     const today = new Date();
     podcastData.duration = parse.duration(podcastData.duration);
-    
+
     const podcastDetail = {
         podcast_id: podcastData.podcast_id,
         video_id: podcastData.video_id,
@@ -146,6 +147,7 @@ app.post('/new', async (req, res) => {
     const status1 = await mysql_query.insertData('podcasts', podcastDetail);
     const status2 = await mysql_query.insertData('tracks', trackingData);
     if(status1 === true && status2 === true) {
+        req.flash('info', 'Data inserted successfully.');
         res.redirect('/');
     }
 });

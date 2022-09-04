@@ -50,6 +50,14 @@
     </div>
 
     <section class="mt-5 pt-4" id="content">
+        <% if(message.length !== 0) { %> 
+            <div class="container col-md-4">
+                <div class="alert alert-primary text-center" role="alert" style="background-color: rgba(0, 169, 234, 0.4);">
+                    <%= message %>
+                </div>
+            </div>
+        <% } %> 
+
         <div class="container">
             <h2 class="text-center"><b>Tracked Videos List</b></h2>
         </div>
@@ -93,7 +101,7 @@
                         </tbody>
                     </table>
                     <% if(videos.length === 0) { %> 
-                        <div class="alert alert-warning text-center" role="alert" style="background-color: rgba(255, 193, 7, 0.5);">
+                        <div class="alert alert-warning text-center" role="alert" style="background-color: rgba(255, 193, 7, 0.4);">
                             No video in record.
                         </div>
                     <% } %> 
