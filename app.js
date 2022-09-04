@@ -100,10 +100,10 @@ app.get('/new', (req, res, next) => {
         res.render('new', {
             account: {username: req.session.username, role: req.session.role}
         });
-    } if(!req.session.username && !req.session.role) {
+    } else if(!req.session.username && !req.session.role) {
         res.redirect('/login');
     } else {
-        next();
+        return next();
     }
 });
 
@@ -126,6 +126,10 @@ app.get('/logout', (req, res) => {
     req.session.role = undefined;
     req.session.destroy();
     res.redirect('/login');
+})
+
+app.use((req, res) => {
+    res.send("404 bro");
 })
 
 // listen

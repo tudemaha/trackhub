@@ -6,9 +6,9 @@ const invalidAlert = document.getElementById('invalidAlert');
 // details form
 const detailsForm = document.forms['details'];
 const thumbnail = document.getElementById('thumbnail');
-const id = document.getElementById('id');
+const video_id = document.getElementById('video_id');
 const definition = document.getElementById('definition');
-const number = document.getElementById('number');
+const podcast_id = document.getElementById('podcast_id');
 const title = document.getElementById('title');
 const duration = document.getElementById('duration');
 const published = document.getElementById('published');
@@ -50,13 +50,15 @@ updateForm.addEventListener('submit', (event) => {
 
 function updateDetails(data) {
     detailsForm.style.display = 'flex';
-    id.value = data.id;
+    video_id.value = data.id;
     definition.value = data.contentDetails.definition;
     thumbnail.src = data.snippet.thumbnails.standard.url;
-    number.value = data.snippet.title.substring(0, 4);
+    podcast_id.value = data.snippet.title.substring(0, 4);
     title.value = data.snippet.title.substring(7, data.snippet.title.length);
     duration.value = data.contentDetails.duration;
     published.value = data.snippet.publishedAt;
     views.value = data.statistics.viewCount;
     likes.value = data.statistics.likeCount;
+
+    thumbnail.scrollIntoView(true);
 }

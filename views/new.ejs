@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TrackTube</title>
+    <title>Insert Data | TrackHub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,13 +12,13 @@
   <body style="font-family: 'Roboto', sans-serif;">
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #00a9ea;">
         <div class="container">
-            <a href="/" class="navbar-brand fw-semibold">TrackTube</a>
+            <a href="/" class="navbar-brand fw-semibold">TrackHub</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <a href="" class="nav-link disabled" style="color: rgba(255, 255, 255, 0.8)">@<%= account.username %> </a>
+                    <a href="" class="nav-link disabled" style="color: rgba(255, 255, 255, 0.8)"><%= account.username %>@trackhub</a>
                     <div class="vr d-none d-md-flex text-white" style="width: 2px"></div>
                     <a href="/" class="nav-link" aria-current="page">Home</a>
                     <% if(account.role === 'admin') { %> 
@@ -30,9 +30,28 @@
             </div>
         </div>
     </nav>
+
+    <div class="modal fade" id="logoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticLogoutModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Logout</h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Logout from TrackHub?
+                </div>
+                <div class="modal-footer">
+                    <a href="/logout" class="btn btn-info text-light" style="background-color: #00a9ea">Yes</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <section class="mt-5 pt-4" id="content">
         <div class="container">
-            <h2 class="text-center"><b>Add New Video</b></h2>
+            <h2 class="text-center"><b>Add New Track</b></h2>
         </div>
 
         <div class="container mt-3 mb-5">
@@ -45,6 +64,7 @@
                         </div>
                         <button type="submit" class="btn text-white" style="background-color: #00a9ea;">Load YouTube Details</button>
                     </form>
+
                     <div class="alert text-center alert-danger mt-3" id="invalidAlert" style="display: none;">Invaild request.</div>
                     <form action="/new" method="post" name="details"  style="display: none">
                         <div class="row mt-4 align-items-start">
@@ -54,11 +74,11 @@
                             </div>
                             <div class="col-md-7">
                                 <fieldset disabled>
-                                    <input type="hidden" name="id" value="" id="id">
+                                    <input type="hidden" name="video_id" value="" id="video_id">
                                     <input type="hidden" name="definition" value="" id="definition">
                                     <div class="mb-2">
-                                        <label for="number" class="form-label">Number</label>
-                                        <input type="text" class="form-control" id="number" name="number" value="">
+                                        <label for="number" class="form-label">Podcast ID</label>
+                                        <input type="text" class="form-control" id="podcast_id" name="podcast_id" value="">
                                     </div>
                                     <div class="mb-2">
                                         <label for="title" class="form-label">Title</label>
