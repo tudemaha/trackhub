@@ -2,7 +2,7 @@
 const express = require('express');
 const session = require('express-session');
 const fetch = require('node-fetch');
-const {body, validationResult, check} = require('express-validator');
+// const {body, validationResult, check} = require('express-validator');
 const flash = require('connect-flash');
 const mysql_query = require('./utils/mysql_query');
 const getHash = require('./utils/hash');
@@ -149,6 +149,22 @@ app.post('/new', async (req, res) => {
     if(status1 === true && status2 === true) {
         req.flash('info', 'Data inserted successfully.');
         res.redirect('/');
+    }
+});
+
+app.get('/edit/:podcastId', async (req, res, next) => {
+    if(req.session.username && req.session.role === 'admin') {
+        const podcast = await mysql_query.readOneItem('podcasts', 'podcast_id', req.params.podcastId);  
+        console.log(podcast);
+
+        res.render('edit', {
+            account: {username: req.session.username, role: req.session.role},
+            podcast: podcast[0]
+        });
+    } else if(!req.session.username && !req.session.role) {
+        res.redirect('/login');
+    } else {
+        return next();
     }
 });
 

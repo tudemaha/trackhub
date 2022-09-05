@@ -42,4 +42,18 @@ const insertData = (table, data) => {
         .catch(err => err);
 }
 
-module.exports = {readTable, login, insertData};
+const readOneItem = (table, key, value) => {
+    const data = new Promise((resolve, reject) => {
+        connection.query(`SELECT * FROM ${table} WHERE ${key} = '${value}'`, (error, result) => {
+            resolve(result);
+            reject(error);
+        });
+    });
+
+    return data
+        .then(result => JSON.stringify(result))
+        .then(result => JSON.parse(result))
+        .catch(err => err);
+}
+
+module.exports = {readTable, login, insertData, readOneItem};
