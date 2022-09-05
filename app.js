@@ -4,6 +4,7 @@ const session = require('express-session');
 const fetch = require('node-fetch');
 // const {body, validationResult, check} = require('express-validator');
 const flash = require('connect-flash');
+const methodOverride = require('method-override');
 const mysql_query = require('./utils/mysql_query');
 const getHash = require('./utils/hash');
 const parse = require('./utils/parse');
@@ -11,7 +12,8 @@ const parse = require('./utils/parse');
 // express setup
 const app = express();
 const port = 3000;
-app.use(express.static('public', {root: __dirname}));
+app.use('/static', express.static('public', {root: __dirname}));
+// app.use('/edit', express.static('public', {root: __dirname}));
 
 // parse incoming data
 app.use(express.urlencoded({extended: true}));
@@ -31,6 +33,9 @@ app.use(session({
 
 // flash setup
 app.use(flash());
+
+// use method override
+app.use(methodOverride('_method'));
 
 // home
 app.get('/', async (req, res) => {
@@ -166,6 +171,10 @@ app.get('/edit/:podcastId', async (req, res, next) => {
     } else {
         return next();
     }
+});
+
+app.put('/update', (req, res) => {
+
 });
 
 // logout
