@@ -11,20 +11,20 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS podcasts (
-	podcast_id VARCHAR(4) NOT NULL,
+	podcast_id INT NOT NULL AUTO_INCREMENT,
+    participan_id VARCHAR(4) NOT NULL,
     video_id VARCHAR(11) NOT NULL,
     definition VARCHAR(5) NOT NULL,
     title VARCHAR(500) NOT NULL,
-    duration TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    duration VARCHAR(8) NOT NULL,
     published TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(podcast_id)
 );
 
 CREATE TABLE IF NOT EXISTS tracks (
 	track_id INT NOT NULL AUTO_INCREMENT,
-    podcast_id VARCHAR(11) NOT NULL,
-    track_date DATE NOT NULL,
-    track_time TIME NOT NULL,
+    podcast_id INT NOT NULL,
+    timestamp TIMESTAMP NOT NULL CURRENT_TIMESTAMP,
     likes INT NOT NULL,
     views INT NOT NULL,
     PRIMARY KEY(track_id),

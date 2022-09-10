@@ -102,6 +102,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// new form
 app.get('/new', (req, res, next) => {
     if(req.session.username && req.session.role === 'admin') {
         res.render('new', {
@@ -114,6 +115,7 @@ app.get('/new', (req, res, next) => {
     }
 });
 
+// fetch data from youtube api
 app.post('/update', (req, res) => {
     fetch(`https://www.googleapis.com/youtube/v3/videos?id=${req.body.id}&key=AIzaSyDZuwEGbjFgQN9326KfqHpLCej7RusZNII&part=snippet,contentDetails,statistics&fields=items(id,snippet(publishedAt,title,thumbnails/standard),contentDetails(duration,definition),statistics)`)
         .then((response) => response.json())
@@ -127,6 +129,7 @@ app.post('/update', (req, res) => {
         });
 });
 
+// save new data
 app.post('/new', async (req, res) => {
     const podcastData = req.body;
 
@@ -157,10 +160,11 @@ app.post('/new', async (req, res) => {
     }
 });
 
+// edit data form
 app.get('/edit/:podcastId', async (req, res, next) => {
     if(req.session.username && req.session.role === 'admin') {
         const podcast = await mysql_query.readOneItem('podcasts', 'podcast_id', req.params.podcastId);  
-        console.log(podcast);
+        // console.log(podcast);
 
         res.render('edit', {
             account: {username: req.session.username, role: req.session.role},
@@ -173,8 +177,20 @@ app.get('/edit/:podcastId', async (req, res, next) => {
     }
 });
 
-app.put('/update', (req, res) => {
+app.put('/update', async (req, res) => {
+    const podcastData = req.body;
 
+    const oldPodcastId = podcastData.old_podcastI_id;
+    podcastData.duration = parse.duration(podcastData.duration);
+    delete podcastData.old_podcast_id;
+
+    const status1 = await mysql_query.updateData('tracks', 'podcast_id', oldPodcastId, {podcast_id: podcastData.podcast_id});
+    const status2 = await mysql_query.updateData('podcasts', 'podcast_id', oldPodcastId, podcastData);
+
+    if(status1 === true && status2 === true) {
+        req.flash('info', 'Data updated.');
+        res.redirect('/');
+    }
 });
 
 // logout

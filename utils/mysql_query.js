@@ -38,7 +38,9 @@ const insertData = (table, data) => {
     });
 
     return status
-        .then(result => true)
+        .then(result => {
+            return {status: true, insertId: result.insertId}
+        })
         .catch(err => err);
 }
 
@@ -56,4 +58,17 @@ const readOneItem = (table, key, value) => {
         .catch(err => err);
 }
 
-module.exports = {readTable, login, insertData, readOneItem};
+const updateData = (table, key, value, newData) => {
+    const data = new Promise((resolve, reject) => {
+        connection.query(`UPDATE ${table} SET ? WHERE ${key} = ${value}`, newData, (error, result) => {
+            resolve(result);
+            reject(error);
+        });
+    });
+
+    return data
+        .then(result => true)
+        .catch(err => err);
+}
+
+module.exports = {readTable, login, insertData, readOneItem, updateData};

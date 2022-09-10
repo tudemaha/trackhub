@@ -74,6 +74,7 @@
                                 <img src="https://i.ytimg.com/vi/<%= podcast.video_id %>/sddefault.jpg" class="img-fluid img-thumbnail" alt="Thumbnail" id="thumbnail">
                             </div>
                             <div class="col-md-7 mb-3">
+                                <input type="hidden" name="old_podcast_id" value="<%= podcast.podcast_id %>" id="old_podcast_id">
                                 <input type="hidden" name="video_id" value="<%= podcast.video_id %>" id="video_id">
                                 <input type="hidden" name="definition" value="<%= podcast.definition %>" id="definition">
                                 <div class="mb-2">
