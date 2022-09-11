@@ -173,6 +173,7 @@ app.get('/edit/:participantId', async (req, res, next) => {
     }
 });
 
+// update data
 app.put('/update', async (req, res) => {
     const podcastData = req.body;
     console.log(podcastData);
@@ -185,6 +186,20 @@ app.put('/update', async (req, res) => {
 
     if(status === true) {
         req.flash('info', 'Data updated.');
+        res.redirect('/');
+    }
+});
+
+// delete data
+app.delete('/delete', async (req, res) => {
+    let podcastId = await mysql_query.readOneItem('podcasts', 'participant_id', req.body.participant_id);
+    podcastId = podcastId[0].podcast_id;
+    
+    const status1 = await mysql_query.deleteData('tracks', 'podcast_id', podcastId);
+    const status2 = await mysql_query.deleteData('podcasts', 'podcast_id', podcastId);
+
+    if(status1 === true && status2 === true) {
+        req.flash('info', 'Data deleted successfully.');
         res.redirect('/');
     }
 });

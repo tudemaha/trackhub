@@ -71,4 +71,17 @@ const updateData = (table, key, value, newData) => {
         .catch(err => err);
 }
 
-module.exports = {readTable, login, insertData, readOneItem, updateData};
+const deleteData = (table, key, value) => {
+    const data = new Promise((resolve, reject) => {
+        connection.query(`DELETE FROM ${table} WHERE ${key} = '${value}'`, (error, result) => {
+            resolve(result);
+            reject(error);
+        })
+    });
+
+    return data
+        .then(result => true)
+        .catch(err => err);
+}
+
+module.exports = {readTable, login, insertData, readOneItem, updateData, deleteData};
