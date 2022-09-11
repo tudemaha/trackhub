@@ -77,19 +77,19 @@
                         <tbody class="table-group-divider">
                             <% videos.forEach((video) => { %>
                             <tr>
-                                <th scope="row"><%= video.podcast_id %> </th>
+                                <th scope="row"><%= video.participant_id %> </th>
                                 <td><%= video.title %> </td>
                                 <td><a href="https://youtube.com/watch?v=<%= video.video_id %> " style="color: #00a9ea" target="_blank">Link</a></td>
                                 <th>
                                     <% if(account.role === 'admin') { %> 
                                         <div class="btn-group"  >
-                                            <a href="/details/<%= video.podcast_id %>" class="btn btn-info btn-sm badge" style="background-color: #00a9ea;">Details</a>
+                                            <a href="/details/<%= video.participant_id %>" class="btn btn-info btn-sm badge" style="background-color: #00a9ea;">Details</a>
                                             <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split badge" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #00a9ea;">
                                                 <span class="visually-hidden">Toggle Dropdown</span>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li><a href="/edit/<%= video.podcast_id %>" class="dropdown-item">Edit</a></li>
-                                                <li><a href="/delete/<%= video.podcast_id %>" class="dropdown-item">Delete</a></li>
+                                                <li><a href="/edit/<%= video.participant_id %>" class="dropdown-item">Edit</a></li>
+                                                <li><a href="/delete/<%= video.participant_id %>" class="dropdown-item">Delete</a></li>
                                             </ul>
                                         </div>
                                     <% } else { %> 

@@ -7,7 +7,7 @@ const invalidAlert = document.getElementById('invalidAlert');
 const detailsForm = document.forms['details'];
 const thumbnail = document.getElementById('thumbnail');
 const video_id = document.getElementById('video_id');
-const podcast_id = document.getElementById('podcast_id');
+const participant_id = document.getElementById('participant_id');
 const definition = document.getElementById('definition');
 const title = document.getElementById('title');
 const duration = document.getElementById('duration');
@@ -53,7 +53,7 @@ function updateDetails(data) {
     video_id.value = data.id;
     definition.value = data.contentDetails.definition;
     thumbnail.src = data.snippet.thumbnails.standard.url;
-    podcast_id.value = data.snippet.title.substring(0, 4);
+    participant_id.value = data.snippet.title.substring(0, 4);
     title.value = data.snippet.title.substring(7, data.snippet.title.length);
     duration.value = data.contentDetails.duration;
     published.value = data.snippet.publishedAt;

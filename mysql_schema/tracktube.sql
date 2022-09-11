@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS tracktube;
+CREATE DATABASE IF NOT EXISTS trackhub;
 
-USE tracktube;
+USE trackhub;
 
 CREATE TABLE IF NOT EXISTS users (
 	user_id INT NOT NULL AUTO_INCREMENT,
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS podcasts (
 	podcast_id INT NOT NULL AUTO_INCREMENT,
-    participan_id VARCHAR(4) NOT NULL,
+    participant_id VARCHAR(4) NOT NULL,
     video_id VARCHAR(11) NOT NULL,
     definition VARCHAR(5) NOT NULL,
     title VARCHAR(500) NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS podcasts (
 CREATE TABLE IF NOT EXISTS tracks (
 	track_id INT NOT NULL AUTO_INCREMENT,
     podcast_id INT NOT NULL,
-    timestamp TIMESTAMP NOT NULL CURRENT_TIMESTAMP,
+    timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     likes INT NOT NULL,
     views INT NOT NULL,
     PRIMARY KEY(track_id),

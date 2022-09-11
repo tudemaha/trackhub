@@ -39,7 +39,7 @@ const insertData = (table, data) => {
 
     return status
         .then(result => {
-            return {status: true, insertId: result.insertId}
+            return {status: true, insertId: result.insertId};
         })
         .catch(err => err);
 }

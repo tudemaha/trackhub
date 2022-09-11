@@ -40,8 +40,6 @@ app.use(methodOverride('_method'));
 // home
 app.get('/', async (req, res) => {
     const videos = await mysql_query.readTable('podcasts');
-    // console.log(videos);
-    // console.log(req.session);
     if(req.session.username && req.session.role) {
         res.render('index', {
             videos,
@@ -70,7 +68,6 @@ app.post('/login', async (req, res) => {
 
     // login authorization
     userData = userData[0];
-    // console.log(userData);
     if(typeof userData === 'undefined') {
         errors.common = 1;
     } else {
@@ -137,34 +134,33 @@ app.post('/new', async (req, res) => {
     podcastData.duration = parse.duration(podcastData.duration);
 
     const podcastDetail = {
-        podcast_id: podcastData.podcast_id,
+        participant_id: podcastData.participant_id,
         video_id: podcastData.video_id,
         definition: podcastData.definition,
         title: podcastData.title,
         duration: podcastData.duration,
         published: podcastData.published
     };
+    const status1 = await mysql_query.insertData('podcasts', podcastDetail);
     
     const trackingData = {
-        podcast_id: podcastData.podcast_id,
+        podcast_id: status1.insertId,
         timestamp: today,
         likes: podcastData.likes,
         views: podcastData.views
     }
-
-    const status1 = await mysql_query.insertData('podcasts', podcastDetail);
     const status2 = await mysql_query.insertData('tracks', trackingData);
-    if(status1 === true && status2 === true) {
+
+    if(status1.status === true && status2.status === true) {
         req.flash('info', 'Data inserted successfully.');
         res.redirect('/');
     }
 });
 
 // edit data form
-app.get('/edit/:podcastId', async (req, res, next) => {
+app.get('/edit/:participantId', async (req, res, next) => {
     if(req.session.username && req.session.role === 'admin') {
-        const podcast = await mysql_query.readOneItem('podcasts', 'podcast_id', req.params.podcastId);  
-        // console.log(podcast);
+        const podcast = await mysql_query.readOneItem('podcasts', 'participant_id', req.params.participantId);  
 
         res.render('edit', {
             account: {username: req.session.username, role: req.session.role},
@@ -179,15 +175,15 @@ app.get('/edit/:podcastId', async (req, res, next) => {
 
 app.put('/update', async (req, res) => {
     const podcastData = req.body;
+    console.log(podcastData);
 
-    const oldPodcastId = podcastData.old_podcastI_id;
+    const podcastId = podcastData.podcast_id;
     podcastData.duration = parse.duration(podcastData.duration);
-    delete podcastData.old_podcast_id;
+    delete podcastData.podcast_id;
 
-    const status1 = await mysql_query.updateData('tracks', 'podcast_id', oldPodcastId, {podcast_id: podcastData.podcast_id});
-    const status2 = await mysql_query.updateData('podcasts', 'podcast_id', oldPodcastId, podcastData);
+    const status = await mysql_query.updateData('podcasts', 'podcast_id', podcastId, podcastData);
 
-    if(status1 === true && status2 === true) {
+    if(status === true) {
         req.flash('info', 'Data updated.');
         res.redirect('/');
     }
