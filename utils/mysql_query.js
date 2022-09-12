@@ -1,8 +1,15 @@
 const connection = require('./mysql_config');
 
-const readTable = (table) => {
+const readTable = (table, key = undefined, value = undefined) => {
     const data = new Promise((resolve, reject) => {
-        connection.query(`SELECT * FROM ${table}`, (error, result) => {
+        let query = '';
+        if(typeof key === 'undefined' || typeof value === 'undefined') {
+            query = `SELECT * FROM ${table}`
+        } else {
+            query = `SELECT * FROM ${table} WHERE ${key} = '${value}'`
+        }
+        
+        connection.query(query, (error, result) => {
             resolve(result);
             reject(error);
         });

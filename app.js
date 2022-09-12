@@ -7,7 +7,7 @@ const flash = require('connect-flash');
 const methodOverride = require('method-override');
 const mysql_query = require('./utils/mysql_query');
 const getHash = require('./utils/hash');
-const parse = require('./utils/parse');
+const conversion = require('./utils/conversion');
 
 // express setup
 const app = express();
@@ -131,7 +131,7 @@ app.post('/new', async (req, res) => {
     const podcastData = req.body;
 
     const today = new Date();
-    podcastData.duration = parse.duration(podcastData.duration);
+    podcastData.duration = conversion.duration(podcastData.duration);
 
     const podcastDetail = {
         participant_id: podcastData.participant_id,
@@ -179,7 +179,7 @@ app.put('/update', async (req, res) => {
     console.log(podcastData);
 
     const podcastId = podcastData.podcast_id;
-    podcastData.duration = parse.duration(podcastData.duration);
+    podcastData.duration = conversion.duration(podcastData.duration);
     delete podcastData.podcast_id;
 
     const status = await mysql_query.updateData('podcasts', 'podcast_id', podcastId, podcastData);
@@ -201,6 +201,28 @@ app.delete('/delete', async (req, res) => {
     if(status1 === true && status2 === true) {
         req.flash('info', 'Data deleted successfully.');
         res.redirect('/');
+    }
+});
+
+// show tracking details
+app.get('/details/:participantId', async (req, res, next) => {
+    if(req.session.username && req.session.role) {
+        let video = await mysql_query.readOneItem('podcasts', 'participant_id', req.params.participantId);
+        video = video[0];
+
+        let tracks = await mysql_query.readTable('tracks', 'podcast_id', video.podcast_id);
+        
+        if(typeof video === 'undefined') {
+            return next();
+        }
+
+        res.render('details', {
+            account: {username: req.session.username, role: req.session.role},
+            video,
+            tracks
+        });
+    } else {
+        res.redirect('/login');
     }
 });
 
