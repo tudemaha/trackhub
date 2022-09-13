@@ -1,15 +1,8 @@
 const connection = require('./mysql_config');
 
-const readTable = (table, key = undefined, value = undefined) => {
+const readTable = (table) => {
     const data = new Promise((resolve, reject) => {
-        let query = '';
-        if(typeof key === 'undefined' || typeof value === 'undefined') {
-            query = `SELECT * FROM ${table}`
-        } else {
-            query = `SELECT * FROM ${table} WHERE ${key} = '${value}'`
-        }
-        
-        connection.query(query, (error, result) => {
+        connection.query(`SELECT * FROM ${table}`, (error, result) => {
             resolve(result);
             reject(error);
         });
@@ -51,7 +44,7 @@ const insertData = (table, data) => {
         .catch(err => err);
 }
 
-const readOneItem = (table, key, value) => {
+const readTableByKey = (table, key, value) => {
     const data = new Promise((resolve, reject) => {
         connection.query(`SELECT * FROM ${table} WHERE ${key} = '${value}'`, (error, result) => {
             resolve(result);
@@ -91,4 +84,4 @@ const deleteData = (table, key, value) => {
         .catch(err => err);
 }
 
-module.exports = {readTable, login, insertData, readOneItem, updateData, deleteData};
+module.exports = {readTable, login, insertData, readTableByKey, updateData, deleteData};

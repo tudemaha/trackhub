@@ -160,7 +160,7 @@ app.post('/new', async (req, res) => {
 // edit data form
 app.get('/edit/:participantId', async (req, res, next) => {
     if(req.session.username && req.session.role === 'admin') {
-        const podcast = await mysql_query.readOneItem('podcasts', 'participant_id', req.params.participantId);  
+        const podcast = await mysql_query.readTableByKey('podcasts', 'participant_id', req.params.participantId);  
 
         res.render('edit', {
             account: {username: req.session.username, role: req.session.role},
@@ -192,7 +192,7 @@ app.put('/update', async (req, res) => {
 
 // delete data
 app.delete('/delete', async (req, res) => {
-    let podcastId = await mysql_query.readOneItem('podcasts', 'participant_id', req.body.participant_id);
+    let podcastId = await mysql_query.readTableByKey('podcasts', 'participant_id', req.body.participant_id);
     podcastId = podcastId[0].podcast_id;
     
     const status1 = await mysql_query.deleteData('tracks', 'podcast_id', podcastId);
@@ -207,10 +207,10 @@ app.delete('/delete', async (req, res) => {
 // show tracking details
 app.get('/details/:participantId', async (req, res, next) => {
     if(req.session.username && req.session.role) {
-        let video = await mysql_query.readOneItem('podcasts', 'participant_id', req.params.participantId);
+        let video = await mysql_query.readTableByKey('podcasts', 'participant_id', req.params.participantId);
         video = video[0];
 
-        let tracks = await mysql_query.readTable('tracks', 'podcast_id', video.podcast_id);
+        let tracks = await mysql_query.readTableByKey('tracks', 'podcast_id', video.podcast_id);
         
         if(typeof video === 'undefined') {
             return next();
