@@ -2,7 +2,6 @@
 const express = require('express');
 const session = require('express-session');
 const fetch = require('node-fetch');
-// const {body, validationResult, check} = require('express-validator');
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
 const mysql_query = require('./utils/mysql_query');
