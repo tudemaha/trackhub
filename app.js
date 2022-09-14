@@ -209,8 +209,7 @@ app.get('/details/:participantId', async (req, res, next) => {
     if(req.session.username && req.session.role) {
         let video = await mysql_query.readTableByKey('podcasts', 'participant_id', req.params.participantId);
         video = video[0];
-
-        let tracks = await mysql_query.readTableByKey('tracks', 'podcast_id', video.podcast_id);
+        video.published = conversion.timezone(video.published, "Asia/Makassar");
         
         if(typeof video === 'undefined') {
             return next();
@@ -218,12 +217,19 @@ app.get('/details/:participantId', async (req, res, next) => {
 
         res.render('details', {
             account: {username: req.session.username, role: req.session.role},
-            video,
-            tracks
+            video
         });
     } else {
         res.redirect('/login');
     }
+});
+
+app.post('/tracks', async (req, res) => {
+    let podcastId = await mysql_query.readTableByKey('podcasts', 'participant_id', req.body.participant_id);
+    podcastId = podcastId[0].podcast_id;
+
+    let tracks = await mysql_query.readTableByKey('tracks', 'podcast_id', podcastId);
+    res.send(tracks);
 });
 
 // logout
