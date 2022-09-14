@@ -56,7 +56,7 @@ const chartUpdate = () => {
             plugins: {
                 title: {
                     display: true,
-                    text: `${participantId.innerHTML} Likes and Views Tracking Details`,
+                    text: `${participantId.innerHTML}'s Likes and Views Tracking Details`,
                     font: {
                         size: 14
                     }
