@@ -58,6 +58,20 @@ const readTableByKey = (table, key, value) => {
         .catch(err => err);
 }
 
+const readFields = (table, ...fields) => {
+    const data = new Promise((resolve, reject) => {
+        connection.query(`SELECT ${fields[0]}, ${fields[1]} FROM ${table}`, (error, result) => {
+            resolve(result);
+            reject(error);
+        });
+    });
+
+    return data
+        .then(result => JSON.stringify(result))
+        .then(result => JSON.parse(result))
+        .catch(err => {throw err});
+}
+
 const updateData = (table, key, value, newData) => {
     const data = new Promise((resolve, reject) => {
         connection.query(`UPDATE ${table} SET ? WHERE ${key} = ${value}`, newData, (error, result) => {
@@ -84,4 +98,4 @@ const deleteData = (table, key, value) => {
         .catch(err => err);
 }
 
-module.exports = {readTable, login, insertData, readTableByKey, updateData, deleteData};
+module.exports = {readTable, login, insertData, readTableByKey, updateData, deleteData, readFields};

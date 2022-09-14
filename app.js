@@ -3,6 +3,7 @@ const express = require('express');
 const session = require('express-session');
 const fetch = require('node-fetch');
 const flash = require('connect-flash');
+const cron = require('node-cron');
 const methodOverride = require('method-override');
 const mysql_query = require('./utils/mysql_query');
 const getHash = require('./utils/hash');
@@ -223,6 +224,7 @@ app.get('/details/:participantId', async (req, res, next) => {
     }
 });
 
+// send tracking data for chart
 app.post('/tracks', async (req, res) => {
     let podcastId = await mysql_query.readTableByKey('podcasts', 'participant_id', req.body.participant_id);
     podcastId = podcastId[0].podcast_id;
@@ -244,9 +246,40 @@ app.get('/logout', (req, res) => {
     res.redirect('/login');
 })
 
+// 404 error
 app.use((req, res) => {
     res.send("404 bro");
 })
+
+// cron jobs
+cron.schedule('*/4 * * * * *', async () => {
+    const ids = await mysql_query.readFields('podcasts', 'podcast_id', 'video_id');
+
+    ids.forEach(async (id) => {
+        const timestamp = new Date();
+        const data = await fetch(`https://www.googleapis.com/youtube/v3/videos?id=${id.video_id}&key=AIzaSyDZuwEGbjFgQN9326KfqHpLCej7RusZNII&part=statistics&fields=items(statistics)`)
+            .then((response) => {
+                if(response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('response not ok');
+                }
+            })
+            .then((response) => response.items)
+            .then((response) => response[0])
+            .then((response) => response.statistics)
+            .catch((error) => {throw error});
+
+        const tracks = {
+            podcast_id: id.podcast_id,
+            timestamp,
+            likes: data.likeCount,
+            views: data.viewCount
+        }
+
+        await mysql_query.insertData('tracks', tracks);
+    });
+});
 
 // listen
 app.listen(port, () => {
