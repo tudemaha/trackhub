@@ -12,16 +12,16 @@ const duration = (durationStamp) => {
     return minute.padStart(2, '0') + ":" + second.padStart(2, '0');
 }
 
-const timezone = (timestamp, zone) => {
+const timezone = (timestamp,locale, zone) => {
     const options = {
         hour12: false,
         timeZone: zone,
-        dateStyle: 'full',
+        dateStyle: 'medium',
         timeStyle: 'long'
 
     }
     const date = new Date(timestamp);
-    return new Intl.DateTimeFormat('id-ID', options).format(date);
+    return new Intl.DateTimeFormat(locale, options).format(date);
 }
 
 module.exports = {duration, timezone};

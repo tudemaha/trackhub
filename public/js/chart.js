@@ -24,20 +24,26 @@ const chartUpdate = () => {
     likes = tracks.map((track) => track.likes);
     views = tracks.map((track) => track.views);
 
+    Chart.defaults.font.family = "'Roboto', 'sans-serif'";
+
     const data = {
         labels,
         datasets: [
             {
                 label: 'Likes',
-                backgroundColor: 'rgb(255, 99, 132)',
+                data: likes,
+                backgroundColor: 'rgba(255, 99, 132, 0.6)',
                 borderColor: 'rgb(255, 99, 132)',
-                data: likes
+                pointRadius: 4,
+                pointHoverRadius: 8
             },
             {
                 label: 'Views',
-                backgroundColor: 'rgb(34, 219, 132)',
+                data: views,
+                backgroundColor: 'rgba(34, 219, 132, 0.6)',
                 borderColor: 'rgb(34, 219, 132)',
-                data: views
+                pointRadius: 4,
+                pointHoverRadius: 8
             }
         ]
     };
@@ -45,7 +51,39 @@ const chartUpdate = () => {
     const config = {
         type: 'line',
         data,
-        options: {}
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: `${participantId.innerHTML} Likes and Views Tracking Details`,
+                    font: {
+                        size: 14
+                    }
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            },
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Tracking Time'
+                    }
+                },
+                y: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Likes/Views Count'
+                    }
+                }
+            },
+            stacked: false
+        }
     }
     
     const myChar = new Chart(

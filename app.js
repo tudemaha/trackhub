@@ -209,7 +209,7 @@ app.get('/details/:participantId', async (req, res, next) => {
     if(req.session.username && req.session.role) {
         let video = await mysql_query.readTableByKey('podcasts', 'participant_id', req.params.participantId);
         video = video[0];
-        video.published = conversion.timezone(video.published, "Asia/Makassar");
+        video.published = conversion.timezone(video.published, 'id-ID', 'Asia/Makassar');
         
         if(typeof video === 'undefined') {
             return next();
@@ -228,7 +228,12 @@ app.post('/tracks', async (req, res) => {
     let podcastId = await mysql_query.readTableByKey('podcasts', 'participant_id', req.body.participant_id);
     podcastId = podcastId[0].podcast_id;
 
-    let tracks = await mysql_query.readTableByKey('tracks', 'podcast_id', podcastId);
+    const tracks = await mysql_query.readTableByKey('tracks', 'podcast_id', podcastId);
+
+    for(let i in tracks) {
+        tracks[i].timestamp = conversion.timezone(tracks[i].timestamp, 'id-ID', 'Asia/Makassar');
+    }
+    
     res.send(tracks);
 });
 
