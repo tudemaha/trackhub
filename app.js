@@ -252,7 +252,7 @@ app.use((req, res) => {
 })
 
 // cron jobs
-cron.schedule('*/4 * * * * *', async () => {
+cron.schedule('*/15 * * * *', async () => {
     const ids = await mysql_query.readFields('podcasts', 'podcast_id', 'video_id');
 
     ids.forEach(async (id) => {
