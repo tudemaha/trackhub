@@ -257,7 +257,25 @@ cron.schedule('0,10,20,30,40,50 * * * *', async () => {
 
     ids.forEach(async (id) => {
         const timestamp = new Date();
-        const data = await fetch(`https://www.googleapis.com/youtube/v3/videos?id=${id.video_id}&key=AIzaSyDZuwEGbjFgQN9326KfqHpLCej7RusZNII&part=statistics&fields=items(statistics)`)
+
+        const data = await getTrackingData(id.video_id);
+        
+        const tracks = {
+            podcast_id: id.podcast_id,
+            timestamp,
+            likes: data.likeCount,
+            views: data.viewCount
+        }
+        
+        setTimeout(async () => {
+            await mysql_query.insertData('tracks', tracks);
+        }, 5000);
+        console.log('cron finished');
+    });
+});
+
+const getTrackingData = (videoId) => {
+    return fetch(`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=AIzaSyDZuwEGbjFgQN9326KfqHpLCej7RusZNII&part=statistics&fields=items(statistics)`)
             .then((response) => {
                 if(response.ok) {
                     return response.json();
@@ -269,17 +287,7 @@ cron.schedule('0,10,20,30,40,50 * * * *', async () => {
             .then((response) => response[0])
             .then((response) => response.statistics)
             .catch((error) => {throw error});
-
-        const tracks = {
-            podcast_id: id.podcast_id,
-            timestamp,
-            likes: data.likeCount,
-            views: data.viewCount
-        }
-
-        await mysql_query.insertData('tracks', tracks);
-    });
-});
+}
 
 // listen
 app.listen(port, () => {
