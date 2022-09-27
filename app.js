@@ -248,31 +248,31 @@ app.get('/logout', (req, res) => {
 
 // 404 error
 app.use((req, res) => {
-    res.send("404 bro");
+    res.status(404).render('not_found');
 })
 
 // cron jobs
-cron.schedule('0,10,20,30,40,50 * * * *', async () => {
-    const ids = await mysql_query.readFields('podcasts', 'podcast_id', 'video_id');
+// cron.schedule('0,10,20,30,40,50 * * * *', async () => {
+//     const ids = await mysql_query.readFields('podcasts', 'podcast_id', 'video_id');
 
-    ids.forEach(async (id) => {
-        const timestamp = new Date();
+//     ids.forEach(async (id) => {
+//         const timestamp = new Date();
 
-        const data = await getTrackingData(id.video_id);
+//         const data = await getTrackingData(id.video_id);
         
-        const tracks = {
-            podcast_id: id.podcast_id,
-            timestamp,
-            likes: data.likeCount,
-            views: data.viewCount
-        }
+//         const tracks = {
+//             podcast_id: id.podcast_id,
+//             timestamp,
+//             likes: data.likeCount,
+//             views: data.viewCount
+//         }
         
-        setTimeout(async () => {
-            await mysql_query.insertData('tracks', tracks);
-        }, 5000);
-        console.log('cron finished: ' + new Date());
-    });
-});
+//         setTimeout(async () => {
+//             await mysql_query.insertData('tracks', tracks);
+//         }, 5000);
+//         console.log('cron finished: ' + new Date());
+//     });
+// });
 
 const getTrackingData = (videoId) => {
     return fetch(`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=AIzaSyDZuwEGbjFgQN9326KfqHpLCej7RusZNII&part=statistics&fields=items(statistics)`)
