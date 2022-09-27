@@ -270,7 +270,7 @@ cron.schedule('0,10,20,30,40,50 * * * *', async () => {
         setTimeout(async () => {
             await mysql_query.insertData('tracks', tracks);
         }, 5000);
-        console.log('cron finished');
+        console.log('cron finished: ' + new Date());
     });
 });
 

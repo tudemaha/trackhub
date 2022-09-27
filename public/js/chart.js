@@ -78,7 +78,7 @@ const chartUpdate = () => {
                     display: true,
                     title: {
                         display: true,
-                        text: 'Likes/Views Count'
+                        text: 'Like/View Count'
                     }
                 }
             },
