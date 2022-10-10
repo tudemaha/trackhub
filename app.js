@@ -50,7 +50,6 @@ app.get('/', async (req, res) => {
     } else {
         res.redirect('/login');
     }
-    console.log(process.env);
 });
 
 // login form
