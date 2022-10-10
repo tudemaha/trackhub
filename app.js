@@ -5,6 +5,7 @@ const fetch = require('node-fetch');
 const flash = require('connect-flash');
 const cron = require('node-cron');
 const methodOverride = require('method-override');
+require('dotenv').config();
 const mysql_query = require('./utils/mysql_query');
 const getHash = require('./utils/hash');
 const conversion = require('./utils/conversion');
@@ -49,6 +50,7 @@ app.get('/', async (req, res) => {
     } else {
         res.redirect('/login');
     }
+    console.log(process.env);
 });
 
 // login form
@@ -114,7 +116,7 @@ app.get('/new', (req, res, next) => {
 
 // fetch data from youtube api
 app.post('/update', (req, res) => {
-    fetch(`https://www.googleapis.com/youtube/v3/videos?id=${req.body.id}&key=AIzaSyDZuwEGbjFgQN9326KfqHpLCej7RusZNII&part=snippet,contentDetails,statistics&fields=items(id,snippet(publishedAt,title,thumbnails/standard),contentDetails(duration,definition),statistics)`)
+    fetch(`https://www.googleapis.com/youtube/v3/videos?id=${req.body.id}&key=${process.env.API_KEY}&part=snippet,contentDetails,statistics&fields=items(id,snippet(publishedAt,title,thumbnails/standard),contentDetails(duration,definition),statistics)`)
         .then((response) => response.json())
         .then((response) => {
             const data = response.items;
@@ -275,7 +277,7 @@ app.use((req, res) => {
 // });
 
 const getTrackingData = (videoId) => {
-    return fetch(`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=AIzaSyDZuwEGbjFgQN9326KfqHpLCej7RusZNII&part=statistics&fields=items(statistics)`)
+    return fetch(`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${process.env.API_KEY}&part=statistics&fields=items(statistics)`)
             .then((response) => {
                 if(response.ok) {
                     return response.json();
