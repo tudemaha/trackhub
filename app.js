@@ -140,7 +140,7 @@ app.post('/new', async (req, res) => {
         definition: podcastData.definition,
         title: podcastData.title,
         duration: podcastData.duration,
-        published: podcastData.published
+        published: new Date(podcastData.published)
     };
     const status1 = await mysql_query.insertData('podcasts', podcastDetail);
     
