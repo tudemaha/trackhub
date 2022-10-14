@@ -10,9 +10,4 @@ const connection = mysql.createConnection({
     database: process.env.DB_DASTABASE
 });
 
-connection.query('SHOW DATABASES', (error, result) => {
-    if(error) throw error;
-    console.log(result);
-})
-
 module.exports = connection;
